@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="author" content="Kodinger">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>My Login Page</title>
+	{% load static %}
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}"> 
+</head>
+
+<body>
+	<section class="h-100">
+		<div class="container h-100">
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded ">
+				<a class="navbar-brand" href="#">HAF</a>
+				<ul class="nav nav-pills ">
+					<li class="nav-item">
+						<a class="nav-item nav-link  active" href="/history">History</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-item nav-link " href="#" id="splitbill">Split Bill</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-item nav-link " href="/profile">Account</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-item nav-link " href="/logout">Logout</a>
+					</li>
+					
+					<li class="nav-item ">
+						<a class="nav-item nav-link text-white" href="/profile">Welcome, {{user.first_name}}</a>
+					</li>
+				</ul>
+			</nav>
+			
+			
+			
+				<h2>History</h2>
+				{% for order in orders %}
+				
+					{%if order.creator.id == request.session.login_user%}
+					
+						<div class="clickdiv col-md" ajax-data="{{order.id}}">
+							<div class="row">
+								<div class="col-md-11">
+									<p class="font-weight-bold">{{order.name}}</p>
+									<p class="nomargin">Order created on {{order.created_at}}</p>
+									<p class="nomargin">Grand Total: ${{order.total_cost}}</p>
+									<p>Split with
+									
+									{% for friend in order.friends.all %}
+									{{friend.name}},
+									{% endfor %}
+									</p>
+									
+									<!-- <button><a href="/edit/{{order.id}}">Edit</a></button> -->
+								</div>
+								<div class="col-md-1">
+									<p><a class="btn btn-primary align-right" href="">Edit</a></p>
+								</div>
+							</div>
+						</div>
+					{% endif %}
+
+				{% endfor %}
+						<!-- <div class="col-md-4" id="preview">
+							<h2>Hidden box</h2>
+						</div> -->
+			
+			
+		</div>
+	</section>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="author" content="Kodinger">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>My Login Page</title>
+	{% load static %}
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">  
+</head>
+
+<body>
+	<section class="h-100">
+		<div class="container h-100">
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded ">
+				<a class="navbar-brand" href="#">HAF</a>
+				<ul class="nav nav-pills ">
+					<li class="nav-item">
+						<a class="nav-item nav-link " href="/history">History</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-item nav-link active " href="#" id="splitbill">Split Bill</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-item nav-link " href="/profile">Account</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-item nav-link " href="/logout">Logout</a>
+					</li>
+					
+					<li class="nav-item ">
+						<a class="nav-item nav-link text-white" href="/profile">Welcome, {{user.first_name}}</a>
+					</li>
+				</ul>
+			</nav>
+			
+			<div>
+				<h2>Split Bill</h2>
+				<form action="/processresults" method="POST">
+					{% csrf_token %}
+					<div class="form-group">
+						<label for="">Order Name</label>
+						<input type="text" class="form-control" name="restaurant" placeholder="Restaurant Name">
+					</div>
+
+					{% for i in range %}
+						<div class="form-row">
+							<div class="form-group col-md-6">	
+								<label for="">Name</label>
+								<input type="text" class="form-control"  name="food_name{{i}}" placeholder="Food Name"> 
+							</div>
+							<div class="form-group col-md-6">
+								<label for="">Price</label>
+								<input type="text" class="form-control" name="cost{{i}}" placeholder="ex. 5.00"> 
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group">
+								<label for="">Belongs to:</label>
+								<select name="friends{{i}}" class="form-control-sm" id="friend-selection{{i}}"> 
+									
+									<option value="none">Select a Friend</option>
+									{% for friend in user.friends.all  %}
+
+									{% if user.first_name == friend.name %}
+									<option value="{{friend.id}}" id="friends">You</option>
+									
+									{% else %}
+									<option value="{{friend.id}}" id="friends">{{friend.name}}</option>
+									{% endif %}
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+					
+					{% endfor %}
+
+				<div class="form-group">
+					<label for="">Tip</label>
+					<input type="text" name="tip" class="form-control" placeholder="ex. 1.00"> 
+				</div>
+				<div class="form-group">
+					<label for="">Tax</label>
+					<input type="text" name="sales_tax" class="form-control" placeholder="ex. 9.50">
+					<!-- <a href="">input manually</a> -->
+				</div>
+				<button class="btn btn-primary">Submit</button>
+				
+				</form>
+				
+			</div>
+		</div>
+	</section>
+
+	<script src="https://code.jquery.com/jquery-3.6.0.js"  integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="  crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

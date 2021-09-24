@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="author" content="Kodinger">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>My Login Page</title>
+	{% load static %}
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}"> 
+</head>
+
+<body>
+	<section class="h-100">
+		<div class="container h-100">
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded ">
+				<a class="navbar-brand" href="#">HAF</a>
+				<ul class="nav nav-pills ">
+					<li class="nav-item">
+						<a class="nav-item nav-link " href="/history">History</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-item nav-link " href="#" id="splitbill">Split Bill</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-item nav-link active" href="/profile">Account</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-item nav-link " href="/logout">Logout</a>
+					</li>
+					
+					<li class="nav-item ">
+						<a class="nav-item nav-link text-white" href="/profile">Welcome, {{user.first_name}}</a>
+					</li>
+				</ul>
+			</nav>
+			
+			<div class="">
+				<h2>My Account</h1> <a id="friendlink" href="/managefriends">Manage Friends</a>
+				<form action="/update" method="POST">
+				{% csrf_token %}
+					<div class="form-group">
+						<label for="fname">First Name:</label>
+						<input name="fname" value="{{user.first_name}}" type="text" class="form-control col-md-6">
+						<label for="lname">Last Name:</label>
+						<input name="lname" value="{{user.last_name}}" type="text" class="form-control col-md-6">
+						<label for="email">Email</label>
+						<input name="email" value="{{user.email}}" type="email" class="form-control col-md-6">
+					</div>
+					<button class="btn btn-primary" type="submit">Update</button>
+				</form>
+				
+			</div>
+		</div>
+	</section>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>
