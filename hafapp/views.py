@@ -199,11 +199,10 @@ def results(request):
     sales_tax1 = float(1+(sales_tax/100))
     tip = float(order.tip)
     for key, value in owe_money.items():
-        value1 = (value * sales_tax1) + (tip/party) 
-        owe_money[key] = float(round(value1, 2))
+        value1 = (value * sales_tax1) + (tip/party)
+        owe_money[key] = format(value1, ".2f")
     
     request.session['owed_money'] = owe_money
-    
     return render(request,'results.html',context)
 
 
