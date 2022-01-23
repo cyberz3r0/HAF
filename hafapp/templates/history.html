@@ -37,6 +37,7 @@
 			
 			
 			
+			
 				<h2>History</h2>
 				{% for order in orders %}
 				
@@ -47,7 +48,7 @@
 								<div class="col-md-11">
 									<p class="font-weight-bold">{{order.name}}</p>
 									<p class="nomargin">Order created on {{order.created_at}}</p>
-									<p class="nomargin">Grand Total: ${{order.total_cost}}</p>
+									<p class="nomargin">Grand Total: ${{order.grand_total}}</p>
 									<p>Split with
 									
 									{% for friend in order.friends.all %}
@@ -58,7 +59,7 @@
 									<!-- <button><a href="/edit/{{order.id}}">Edit</a></button> -->
 								</div>
 								<div class="col-md-1">
-									<p><a class="btn btn-primary align-right" href="">Edit</a></p>
+									<p><a class="btn btn-primary align-right" href="/order/{{order.id}}">Edit</a></p>
 								</div>
 							</div>
 						</div>

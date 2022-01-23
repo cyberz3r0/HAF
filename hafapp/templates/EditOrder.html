@@ -7,20 +7,20 @@
 	<title>My Login Page</title>
 	{% load static %}
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/my-login.css' %}"> 
+	<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">  
 </head>
 
-<body class="my-login-page">
+<body>
 	<section class="h-100">
 		<div class="container h-100">
 			<nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded ">
 				<a class="navbar-brand" href="#">HAF</a>
 				<ul class="nav nav-pills ">
 					<li class="nav-item">
-						<a class="nav-item nav-link  active" href="/history">History</a>
+						<a class="nav-item nav-link " href="/history">History</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-item nav-link " href="#" id="splitbill">Split Bill</a>
+						<a class="nav-item nav-link active " href="#" id="splitbill">Split Bill</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-item nav-link " href="/profile">Account</a>
@@ -35,43 +35,75 @@
 				</ul>
 			</nav>
 			
-			<div class="">
-				
-				<h3>{{order.name}}</h3>
-				<table>
-					<thead>
-						<tr>
-							<th>Ordered By</th>
-							<th>Food Name</th>
-							<th>Food Cost</th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for item in order.items.all.order_by|dictsort:"ordered_by_friend.name" %}
-						<tr>
-							<td>{{item.ordered_by_friend.name}}</td>
-							<td>{{item.name}}</td>
-							<td>${{item.cost}}</td>
-						</tr>
-						{% endfor %}
-						<tr>
-							<td>Subtotal </td>
-							<td> </td>
-							<td>${{order.total_cost}}</td>
-						</tr>
-					</tbody>
-				</table>
-				<p>${{order.tip}}</p>
-				<p>{{order.sales_tax}}%</p>
-				<p>${{order.grand_total}}</p>
+			<div>
+				<h2>Edit Bill</h2>
+				<form action="/processupdated/{{order.id}}" method="POST">
+					{% csrf_token %}
+					<div class="form-group">
+						<label for="">Order Name</label>
+						<input type="text" class="form-control" name="restaurant" placeholder="Restaurant Name" value={{order.name}}>
+					</div>
 
+					{% for item in items %}
+						<div class="form-row">
+							<div class="form-group col-md-6">	
+								<label for="">Name</label>
+								<input type="text" class="form-control"  name="food_name{{item.id}}" placeholder="Food Name" value={{item.name}}> 
+							</div>
+							<div class="form-group col-md-6">
+								<label for="">Price</label>
+								<input type="text" class="form-control" name="cost{{item.id}}" placeholder="ex. 5.00" value={{item.cost}}> 
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group">
+								<label for="">Belongs to:</label>
+								<select name="friends{{item.id}}" class="form-control-sm" id="friend-selection{{item.id}}"> 
+									
+									{% for friend in user.friends.all %}
+
+									{% if user.first_name == friend.name and item.ordered_by_friend.name == user.first_name%}
+									<option value="{{friend.id}}" id="friends" selected>You</option>
+									
+									{% elif  item.ordered_by_friend.name == friend.name%}
+									<option value="{{friend.id}}" id="friends" selected>{{friend.name}}</option>
+									{% else%}
+									<option value="{{friend.id}}" id="friends">{{friend.name}}</option>
+									{% endif %}
+									{% endfor %}
+								</select>
+								
+									<div class="form-check-inline">
+										<input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+										<label class="form-check-label" for="defaultCheck1">Split w/Party</label>
+									</div>
+								
+								
+							</div>
+						</div>
+					
+					{% endfor %}
+
+				<div class="form-group">
+					<label for="">Tip</label>
+					<input type="text" name="tip" class="form-control" placeholder="ex. 1.00" value={{order.tip}}> 
+				</div>
+				<div class="form-group">
+					<label for="">Tax</label>
+					<input type="text" name="sales_tax" class="form-control" placeholder="ex. 9.50" value={{order.sales_tax}}>
+					<a href="">input manually</a>
+				</div>
+				<button class="btn btn-primary">Update</button>
+				
+				</form>
+				
 			</div>
 		</div>
 	</section>
 
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.js"  integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="  crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-	<script src="{% static 'js/my-login.js' %}"></script>
+	<script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>

@@ -16,5 +16,9 @@ path('removefriend/<int:friend_id>', views.removefriend),
 path('ordersetup2/<int:fooditems>', views.ordersetup2),
 path('processresults', views.processresults),
 path('results', views.results),
+path('order/<int:order_id>', views.editorder),
+path('update/<int:order_id>', views.editorder),
+path('updateorder/<int:order_id>', views.updatedresults),
+path('processupdated/<int:order_id>', views.processupdated),
 
 ]
