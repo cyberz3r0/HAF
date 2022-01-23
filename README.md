@@ -16,10 +16,12 @@ Current Project Features:
 4.	Responsive site
 
 Reach Goals:
-1.	Edit past orders 
-2.	Form Validation 
-3.	Invite Friends with referral code (Create friends as Users)
-4.	Manipulate data from photo or upload of receipt
-5.	Improve Performance 
-6.	Sales tax API
-7.	Bookkeeping 
+1.	Form Validation 
+2.	Invite Friends with referral code (Create friends as Users)
+3.	Manipulate data from photo or upload of receipt
+4.	Improve Performance 
+5.	Sales tax API
+6.	Bookkeeping 
+
+
+Known Bug: Strings do not display full name
