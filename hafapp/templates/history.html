@@ -40,30 +40,25 @@
 			
 				<h2>History</h2>
 				{% for order in orders %}
-				
-					{%if order.creator.id == request.session.login_user%}
-					
-						<div class="clickdiv col-md" ajax-data="{{order.id}}">
-							<div class="row">
-								<div class="col-md-11">
-									<p class="font-weight-bold">{{order.name}}</p>
-									<p class="nomargin">Order created on {{order.created_at}}</p>
-									<p class="nomargin">Grand Total: ${{order.grand_total}}</p>
-									<p>Split with
-									
-									{% for friend in order.friends.all %}
-									{{friend.name}},
-									{% endfor %}
-									</p>
-									
-									<!-- <button><a href="/edit/{{order.id}}">Edit</a></button> -->
-								</div>
-								<div class="col-md-1">
-									<p><a class="btn btn-primary align-right" href="/order/{{order.id}}">Edit</a></p>
-								</div>
+					<div class="clickdiv col-md mt-3 mb-3" ajax-data="{{order.id}}">
+						<div class="row">
+							<div class="col-md-11">
+								<p class="font-weight-bold">{{order.name}}</p>
+								<p class="nomargin">Order created on {{order.created_at}}</p>
+								<p class="nomargin">Grand Total: ${{order.grand_total}}</p>
+								<p>Split with
+								
+								{% for friend in order.friends.all %}
+								{{friend.name}},
+								{% endfor %}
+								</p>
+							</div>
+							<div class="col-md-1 mt-1">
+								<p><a class="btn btn-primary align-right" href="/order/{{order.id}}">Edit</a></p>
 							</div>
 						</div>
-					{% endif %}
+					</div>
+					
 
 				{% endfor %}
 						<!-- <div class="col-md-4" id="preview">

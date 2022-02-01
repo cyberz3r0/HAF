@@ -13,13 +13,6 @@ def register(request):
     
     return render(request,'register.html')
 
-def history(request):
-    context= {
-        'user': User.objects.get(id=request.session['login_user']),
-        'orders': Order.objects.all
-    }
-    return render(request,'history.html', context)
-
 def login(request):
     user = User.objects.filter(email = request.POST['email'])
     if user:
@@ -28,6 +21,19 @@ def login(request):
         request.session['login_user'] = login_user.id
     return redirect('/history')
 
+def history(request):
+    
+    context= {
+        'user': User.objects.get(id=request.session['login_user']),
+        'orders': Order.objects.filter(creator=request.session['login_user']).order_by('-id'),
+        'list': Item.objects.all
+    }
+    
+    # orders = Order.objects.filter(creator=request.session['login_user']).order_by('-id')
+    # for order in orders:
+    #     for friend in order.friends.all():
+    #         print(friend.name)
+    return render(request,'history.html', context)
 
 def processregister(request):
     errors = User.objects.validator(request.POST)
@@ -108,15 +114,19 @@ def processupdated(request, order_id):
     index2 = 0
     foodname=""
     cost_of_food= 0.00
+    lastnum = 0
     
     for item in order.items.all():
         if index == 0:
             index = int(item.id)
-            index2= int(item.id)
-        
+            index2= index
+        if index !=0:
+            # Storing the last number to prevent code from breaking if order is the last order in the database
+            lastnum= int(item.id)
+            print(lastnum)
     
     totalcost=0
-    print(request.POST)
+    
     
     
     #############find all unique friend IDs in Order and all the values of Items in an Order. 
@@ -144,7 +154,7 @@ def processupdated(request, order_id):
     
     #############Update Order table
     
-    order.name = request.POST['restaurant'],
+    order.name = request.POST['restaurant']
     order.total_cost = totalcost
     order.tip = tip
     order.sales_tax = sales_tax
@@ -160,7 +170,9 @@ def processupdated(request, order_id):
     
     ##############Adding all items in Order 
     for key, value in request.POST.items():
-        print(index2)
+        # Prevent code from breaking if order is the last order in the database
+        if lastnum < index2:
+            return redirect (f'/updateorder/{order_id}')
         item=Item.objects.get(id=index2)
         if key == "food_name"+str(index2):
             foodname = value
@@ -174,7 +186,7 @@ def processupdated(request, order_id):
             item.cost = cost_of_food
             item.ordered_by_friend = Friend.objects.get(id=value) 
             item.save()
-    return redirect (f'/updateorder/{order_id}')
+    
 
 def updatedresults(request, order_id):
     owe_money = {}
