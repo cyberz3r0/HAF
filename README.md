@@ -1,11 +1,7 @@
-# HAF
-Welcome to my Work in progress project.
+# HAF (Hiatus)
 I will be creating a web app with Login and register that will help split the bill with friends. 
 Used in project:
 Python, Django, Ajax, JQuery, CSS, HTML, Bootstrap 4 was used in this project 
-
-The current wireframe looks like this.
-[Haf.pdf](https://github.com/cyberz3r0/haf/files/7112165/Haf.pdf) (To be updated)
 
 Here is a very brief showing of my project. https://youtu.be/pzXw6yggVi4
 
@@ -24,4 +20,4 @@ Reach Goals:
 6.	Bookkeeping 
 
 
-Known Bug: Strings do not display full name
+
